@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Magoria.Server.Controllers
 {
-    [Route("")]
+    [Route("api")]
     public class FallbackController : Controller
     {
         [HttpGet]

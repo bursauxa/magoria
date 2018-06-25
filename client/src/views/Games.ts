@@ -1,6 +1,5 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import GameDescriptor from '@/models/GameDescriptor';
-import { randomBytes } from 'crypto';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import Axios from 'axios';
 
@@ -14,14 +13,14 @@ export default class Games extends Vue {
   public constructor() {
     super();
     this.connection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5000/lobby')
+      .withUrl('/hubs/lobby')
       .build();
     this.connection.on('ReceiveGameCreation', descriptor => this.receiveGameCreation(descriptor));
     this.connection.start().catch(err => { throw err.toString(); });
   }
 
   public mounted(): void {
-    Axios({ method: 'GET', url: 'http://localhost:5000/api/lobby' })
+    Axios({ method: 'GET', url: '/api/lobby' })
     .then(result => this.descriptors = result.data, error => { throw error; });
   }
 
