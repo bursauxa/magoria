@@ -1,0 +1,15 @@
+using System;
+using Newtonsoft.Json;
+
+public class GameDescriptor {
+    public string Name {get; private set;}
+    public int NumberOfPlayers {get; private set;}
+    [JsonConverter(typeof(NullToDefaultConverter<Guid>))]
+    public Guid Id {get; private set;} 
+
+    public GameDescriptor(string name, int numberOfPlayers, Guid id) {
+        Name = name;
+        NumberOfPlayers = numberOfPlayers;
+        Id = id;
+    }
+}
