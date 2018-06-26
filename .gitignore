@@ -1,3 +1,4 @@
 client/node_modules/
 server/obj/
 server/bin/
+**/.DS_Store

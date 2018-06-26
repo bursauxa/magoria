@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Magoria.Server.Accessors;
+using Magoria.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
@@ -13,8 +15,7 @@ namespace Magoria.Server.Controllers
         [HttpGet]
         public IEnumerable<GameDescriptor> Get()
         {
-            IMongoCollection<GameDescriptor> collection = MongoConnector.GetCollection<GameDescriptor>("games");
-            return collection.FindSync(_ => true).ToList();
+            return GameAccessor.GetAllGames();
         }
     }
 }

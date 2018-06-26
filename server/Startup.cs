@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Net;
+using System.Net.Sockets;
+using Magoria.Server.Hubs;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +25,7 @@ namespace Magoria.Server
             {
                 builder.AllowAnyMethod()
                        .AllowAnyHeader()
-                       .WithOrigins("http://localhost", "http://" + NetHelper.GetLocalIP())
+                       .WithOrigins("http://localhost", "http://" + GetLocalIP())
                        .AllowCredentials();
             }));
 
@@ -40,6 +43,17 @@ namespace Magoria.Server
             {
                 routes.MapHub<LobbyHub>("/hubs/lobby");
             });
+        }
+
+        private static string GetLocalIP() {
+            string localIP;
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
+            }
+            return localIP;
         }
     }
 }

@@ -1,3 +1,9 @@
 {
-    "debug.hideActionBar": false
+    "files.exclude": {
+        "**/obj": true,
+        "**/bin": true,
+        "**/node_modules": true,
+        "**/.git": true,
+        "**/.DS_Store": true
+      },
 }
