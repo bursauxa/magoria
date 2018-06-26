@@ -7,6 +7,7 @@ using MongoDB.Driver;
 
 namespace Magoria.Server.Hubs
 {
+    [HubRoute("/hubs/lobby")]
     public class LobbyHub: Hub {
         public async Task SignalGameCreation(GameDescriptor descriptor)
         {
