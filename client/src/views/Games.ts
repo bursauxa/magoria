@@ -21,7 +21,7 @@ export default class Games extends Vue {
 
   public mounted(): void {
     Axios({ method: 'GET', url: '/api/lobby' })
-    .then(result => this.descriptors = result.data, error => { throw error; });
+      .then(result => this.descriptors = result.data, error => { throw error; });
   }
 
   private receiveGameCreation(descriptor: GameDescriptor): void {
@@ -29,6 +29,11 @@ export default class Games extends Vue {
   }
 
   public addGame(): void {
-    this.connection.invoke('RequestGameCreation', new GameDescriptor(this.newGameName, Math.ceil(4 * Math.random())));
+    // this.connection.invoke('RequestGameCreation', new GameDescriptor(this.newGameName, Math.ceil(4 * Math.random())));
+    Axios({
+        method: 'PUT',
+        url: '/api/lobby',
+        data: new GameDescriptor(this.newGameName, Math.ceil(4 * Math.random())) })
+      .then(result => this.descriptors.push(result.data), error => { throw error; });
   }
 }

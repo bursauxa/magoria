@@ -13,8 +13,10 @@ namespace Magoria.Server.Accessors
             return collection.FindSync(_ => true).ToEnumerable();
         }
 
-        public static Task SaveGame(GameDescriptor gameToSave) {
-            return collection.ReplaceOneAsync(game => game.Id == gameToSave.Id, gameToSave, new UpdateOptions() {IsUpsert = true});
+        public static Task<GameDescriptor> SaveGame(GameDescriptor gameToSave) {
+            return collection
+                .ReplaceOneAsync(game => game.Id == gameToSave.Id, gameToSave, new UpdateOptions() {IsUpsert = true})
+                .ContinueWith(result => result.Result.IsAcknowledged ? gameToSave : null);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Magoria.Server.Accessors;
 using Magoria.Server.Models;
 using Microsoft.AspNetCore.SignalR;
-using MongoDB.Driver;
 
 namespace Magoria.Server.Hubs
 {
@@ -16,7 +15,7 @@ namespace Magoria.Server.Hubs
 
         public async Task RequestGameCreation(GameDescriptor descriptor)
         {
-            GameDescriptor validatedDescriptor = new GameDescriptor(descriptor.Name, descriptor.NumberOfPlayers, Guid.NewGuid());
+            GameDescriptor validatedDescriptor = new GameDescriptor(descriptor);
             await Task.WhenAll(
                 GameAccessor.SaveGame(validatedDescriptor),
                 SignalGameCreation(validatedDescriptor));
