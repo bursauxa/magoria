@@ -8,9 +8,9 @@ namespace Magoria.Server.Hubs
 {
     [HubRoute("/hubs/lobby")]
     public class LobbyHub: Hub {
-        public async Task SignalGameCreation(GameDescriptor descriptor)
+        public async Task InformGameCreated(GameDescriptor descriptor)
         {
-            await Clients.All.SendAsync("ReceiveGameCreation", descriptor);
+            await Clients.All.SendAsync("InformGameCreated", descriptor);
         }
 
         public async Task RequestGameCreation(GameDescriptor descriptor)
@@ -18,7 +18,7 @@ namespace Magoria.Server.Hubs
             GameDescriptor validatedDescriptor = new GameDescriptor(descriptor);
             await Task.WhenAll(
                 GameAccessor.SaveGame(validatedDescriptor),
-                SignalGameCreation(validatedDescriptor));
+                InformGameCreated(validatedDescriptor));
         }
     }
 }

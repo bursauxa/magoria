@@ -1,11 +1,10 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import GameDescriptor from '@/models/GameDescriptor';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
-import Axios from 'axios';
+import LobbyService from '@/services/LobbyService';
 
 @Component
 export default class Games extends Vue {
-  private readonly connection: HubConnection;
+  private readonly lobbyService: LobbyService;
 
   public descriptors: GameDescriptor[] = [];
   public newGameName: string = '';
@@ -13,28 +12,22 @@ export default class Games extends Vue {
 
   public constructor() {
     super();
-    this.connection = new HubConnectionBuilder()
-      .withUrl('/hubs/lobby')
-      .build();
-    this.connection.on('ReceiveGameCreation', descriptor => this.receiveGameCreation(descriptor));
-    this.connection.start().catch(err => { throw err.toString(); });
+    this.lobbyService = LobbyService.instance;
+    this.lobbyService.onGameCreated(game => this.onGameCreated(game));
   }
 
   public mounted(): void {
-    Axios({ method: 'GET', url: '/api/lobby' })
-      .then(result => this.descriptors = result.data, error => { throw error; });
+    this.lobbyService.get().then(games => this.descriptors = games);
   }
 
-  private receiveGameCreation(descriptor: GameDescriptor): void {
+  private onGameCreated(descriptor: GameDescriptor): void {
     this.descriptors.push(descriptor);
   }
 
   public addGame(): void {
-    // this.connection.invoke('RequestGameCreation', new GameDescriptor(this.newGameName, this.newGameCount));
-    Axios({
-        method: 'PUT',
-        url: '/api/lobby',
-        data: new GameDescriptor(this.newGameName, this.newGameCount) })
-      .then(result => this.descriptors.push(result.data), error => { throw error; });
+    this.lobbyService
+      .put(new GameDescriptor(this.newGameName, this.newGameCount))
+      .then(game => this.descriptors.push(game));
+    // this.lobbyService.requestGameCreation(new GameDescriptor(this.newGameName, this.newGameCount));
   }
 }
