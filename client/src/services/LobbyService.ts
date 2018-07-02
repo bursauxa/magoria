@@ -16,23 +16,23 @@ export default class LobbyService {
 
   public get(): Promise<GameDescriptor[]> {
     return Axios({ method: 'GET', url: '/api/lobby' })
-      .then(result => result.data, error => { throw error; });
+      .then(result => GameDescriptor.fromServerObjects(result.data), error => { throw error; });
   }
 
   public put(game: GameDescriptor): Promise<GameDescriptor> {
     return Axios({ method: 'PUT', url: '/api/lobby', data: game })
-      .then(result => result.data, error => { throw error; });
+      .then(result => GameDescriptor.fromServerObject(result.data), error => { throw error; });
   }
 
-  public onGameCreated(handler: (game: GameDescriptor) => void, removeHandler = false): void {
-    if (removeHandler) {
-      this.connection.off('InformGameCreated', handler);
-    } else {
-      this.connection.on('InformGameCreated', handler);
-    }
-  }
+//   public onGameCreated(handler: (game: GameDescriptor) => void, removeHandler = false): void {
+//     if (removeHandler) {
+//       this.connection.off('InformGameCreated', handler);
+//     } else {
+//       this.connection.on('InformGameCreated', handler);
+//     }
+//   }
 
-  public requestGameCreation(game: GameDescriptor): void {
-    this.connection.invoke('RequestGameCreation', game);
-  }
+//   public requestGameCreation(game: GameDescriptor): void {
+//     this.connection.invoke('RequestGameCreation', game);
+//   }
 }
