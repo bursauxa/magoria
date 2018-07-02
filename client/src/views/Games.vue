@@ -25,38 +25,15 @@
         </div> -->
       </div>
     </div>
-    <ul>
-      <li v-for="descriptor in descriptors" :key="descriptor.id">
-        {{ descriptor.name }} - {{ descriptor.numberOfPlayers }} joueur(s)
-      </li>
-    </ul>
+    <div>
+      <div v-for="descriptor in descriptors" :key="descriptor.id">
+        <!-- {{ descriptor.name }} - {{ descriptor.numberOfPlayers }} joueur(s) -->
+        <GameComponent :game-descriptor="descriptor"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" src="./Games.ts"/>
 
-<style lang="less">
-.games {
-  .add-box-flex {
-    display: flex;
-    justify-content: center;
-    text-align: left;
-  }
-
-  .add-box-border {
-    border: 1px black solid;
-    display: flex;
-    flex-flow: column;
-  }
-
-  .add-box-row {
-    > * {
-      margin: 10px;
-    }
-    input {
-      margin-right: 50px;
-      font-size: 14px;
-    }
-  }
-}
-</style>
+<style lang="less" src="./Games.less"/>
