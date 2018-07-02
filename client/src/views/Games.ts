@@ -9,6 +9,7 @@ export default class Games extends Vue {
 
   public descriptors: GameDescriptor[] = [];
   public newGameName: string = '';
+  public newGameCount: number = 0;
 
   public constructor() {
     super();
@@ -29,11 +30,11 @@ export default class Games extends Vue {
   }
 
   public addGame(): void {
-    // this.connection.invoke('RequestGameCreation', new GameDescriptor(this.newGameName, Math.ceil(4 * Math.random())));
+    // this.connection.invoke('RequestGameCreation', new GameDescriptor(this.newGameName, this.newGameCount));
     Axios({
         method: 'PUT',
         url: '/api/lobby',
-        data: new GameDescriptor(this.newGameName, Math.ceil(4 * Math.random())) })
+        data: new GameDescriptor(this.newGameName, this.newGameCount) })
       .then(result => this.descriptors.push(result.data), error => { throw error; });
   }
 }
