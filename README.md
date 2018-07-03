@@ -5,7 +5,7 @@ Sample application with Mongo, .NET Core MVP, SignalR, Vue with strict TS.
 - install .NET Core 2.1 SDK : https://www.microsoft.com/net/download/linux (or /windows, /macos)
 - use VS Code as your IDE if you want to take advantage of the included config & project files
 - have a recent enough node/npm installation
-- install MongoDB, the default installation should have it running on localhost:27017 (can be changed in `DataSource.cs`)
+- install MongoDB, the default installation should have it running on `localhost:27017` (can be changed in `DataSource.cs`)
 
 ## Port routing & CORS
 For development on your own computer, it is possible to simply rewrite the URLs in `LobbyService.ts` to target `localhost:5000`, as well as add `localhost:8080` to accepted origins in `Startup.cs`.
