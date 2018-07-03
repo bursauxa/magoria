@@ -1,0 +1,1 @@
+db.games.updateMany({Players: null}, {$set: {Players: ['Personne']}});

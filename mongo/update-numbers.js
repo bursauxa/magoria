@@ -1,0 +1,1 @@
+db.games.find().forEach(function (game) {game.NumberOfPlayers = game.Players.length; db.games.save(game)});
