@@ -27,8 +27,8 @@
     </div>
     <div>
       <div v-for="descriptor in descriptors" :key="descriptor.id">
-        <!-- {{ descriptor.name }} - {{ descriptor.numberOfPlayers }} joueur(s) -->
-        <GameComponent :game-descriptor="descriptor"/>
+        {{ descriptor.name }} - {{ descriptor.numberOfPlayers }} joueur(s)
+        <!-- <GameComponent :game-descriptor="descriptor"/> -->
       </div>
     </div>
   </div>

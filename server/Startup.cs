@@ -39,7 +39,7 @@ namespace Magoria.Server
         {
             app.UseCors("CorsPolicy");
             app.UseMvc();
-            app.UseSignalR();
+            // app.UseSignalR();
         }
 
         private static string GetLocalIP() {
