@@ -10,10 +10,6 @@
           <button v-on:click="expanded = false" v-if="expanded">&#x2191;</button>
         </div>
         <div class="add-box-row" v-show="expanded">
-          <span>Nombre de joueurs</span>
-          <input v-model.number="newGameCount" type="number"/>
-        </div>
-        <!-- <div class="add-box-row" v-show="expanded">
           <span>Joueur 1</span>
           <input v-model="player1"/>
           <span>Joueur 2</span>
@@ -22,13 +18,12 @@
           <input v-model="player3"/>
           <span>Joueur 4</span>
           <input v-model="player4"/>
-        </div> -->
+        </div>
       </div>
     </div>
     <div>
       <div v-for="descriptor in descriptors" :key="descriptor.id">
-        {{ descriptor.name }} - {{ descriptor.numberOfPlayers }} joueur(s)
-        <!-- <GameComponent :game-descriptor="descriptor"/> -->
+        <GameComponent :game-descriptor="descriptor"/>
       </div>
     </div>
   </div>
