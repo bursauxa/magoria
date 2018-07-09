@@ -1,12 +1,15 @@
 <template>
   <div class="gcomp">
-    <span>
-      {{ gameDescriptor.name }} - {{ gameDescriptor.numberOfPlayers }} joueur(s)
-    </span>
-    <button v-on:click="expanded = true" v-if="!expanded">&#x2192;</button>
-    <button v-on:click="expanded = false" v-if="expanded">&#x2190;</button>
-    <div class="expander-box" v-show="expanded">
-      <span v-for="player in gameDescriptor.players" :key="player">{{ player }}</span>
+    <div v-if="gameDescriptor">
+      <router-link :to="'/game/' + gameDescriptor.id">&#127968;</router-link>
+      <span>
+        {{ gameDescriptor.name }} - {{ gameDescriptor.numberOfPlayers }} joueur(s)
+      </span>
+      <button v-on:click="expanded = true" v-if="!expanded">&#x2192;</button>
+      <button v-on:click="expanded = false" v-if="expanded">&#x2190;</button>
+      <div class="expander-box" v-show="expanded">
+        <span v-for="player in gameDescriptor.players" :key="player">{{ player }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +28,15 @@ export default class GameComponent extends Vue {
 <style lang="less">
 .gcomp {
   margin: 5px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+
   .expander-box {
     display: inline;
     span {

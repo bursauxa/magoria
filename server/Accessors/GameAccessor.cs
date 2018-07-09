@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Magoria.Server.Models;
@@ -11,6 +12,14 @@ namespace Magoria.Server.Accessors
 
         public static IEnumerable<GameDescriptor> GetAllGames() {
             return collection.FindSync(_ => true).ToEnumerable();
+        }
+
+        public static GameDescriptor GetOneGame(Guid id) {
+            GameDescriptor result = collection.FindSync(game => game.Id == id).SingleOrDefault();
+            if (result == null)
+                throw new ArgumentOutOfRangeException("No such game: " + id);
+            else
+                return result;
         }
 
         public static Task<GameDescriptor> SaveGame(GameDescriptor gameToSave) {

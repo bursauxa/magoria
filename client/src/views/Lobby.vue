@@ -1,5 +1,5 @@
 <template>
-  <div class="games">
+  <div class="lobby">
     <div class="add-box-flex">
       <div class="add-box-border">
         <div class="add-box-row">
@@ -29,6 +29,6 @@
   </div>
 </template>
 
-<script lang="ts" src="./Games.ts"/>
+<script lang="ts" src="./Lobby.ts"/>
 
-<style lang="less" src="./Games.less"/>
+<style lang="less" src="./Lobby.less"/>

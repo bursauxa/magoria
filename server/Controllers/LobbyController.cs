@@ -19,13 +19,19 @@ namespace Magoria.Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GameDescriptor> Get()
+        public IEnumerable<GameDescriptor> GetAllGames()
         {
             return GameAccessor.GetAllGames();
         }
 
+        [HttpGet("{id}")]
+        public GameDescriptor GetOneGame(Guid id)
+        {
+            return GameAccessor.GetOneGame(id);
+        }
+
         [HttpPut]
-        public GameDescriptor Put([FromBody] GameDescriptor descriptor)
+        public GameDescriptor PutOneGame([FromBody] GameDescriptor descriptor)
         {
             GameDescriptor validatedDescriptor = new GameDescriptor(descriptor);
             lobbyHub.Clients.All.SendAsync("InformGameCreated", validatedDescriptor);

@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import About from './views/About.vue';
-import Games from './views/Games.vue';
+import Game from './views/Game.vue';
+import Lobby from '@/views/Lobby';
 
 Vue.use(Router);
 
@@ -19,9 +20,14 @@ export default new Router({
       component: About
     },
     {
-      path: '/games',
-      name: 'games',
-      component: Games
+      path: '/lobby',
+      name: 'lobby',
+      component: Lobby
+    },
+    {
+      path: '/game/:gameId',
+      name: 'game',
+      component: Game
     }
   ]
 });

@@ -8,8 +8,9 @@ import GameComponent from '@/components/GameComponent.vue';
     GameComponent
   }
 })
-export default class Games extends Vue {
+export default class Lobby extends Vue {
   private readonly lobbyService: LobbyService;
+  private onGameCreatedCallbackId?: string;
 
   public expanded = false;
   public descriptors: GameDescriptor[] = [];
@@ -23,12 +24,16 @@ export default class Games extends Vue {
   public constructor() {
     super();
     this.lobbyService = LobbyService.instance;
-    const id = this.lobbyService.onGameCreated(game => this.onGameCreated(game));
-    // this.lobbyService.offGameCreated(id); // uncomment this to test unsubscription
   }
 
   public mounted(): void {
-    this.lobbyService.get().then(games => this.descriptors = games);
+    this.lobbyService.getAll().then(games => this.descriptors = games);
+    this.onGameCreatedCallbackId = this.lobbyService.onGameCreated(game => this.onGameCreated(game));
+    // this.lobbyService.offGameCreated(id); // uncomment this to test unsubscription
+  }
+
+  public destroyed(): void {
+    this.lobbyService.offGameCreated(this.onGameCreatedCallbackId as string);
   }
 
   public addGame(): void {
