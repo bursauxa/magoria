@@ -15,7 +15,7 @@ import GameComponent from '@/components/GameComponent.vue';
     GameComponent
   }
 })
-export default class Game extends Vue {
+export default class GameVue extends Vue {
   public descriptor: GameDescriptor | null = null;
 
   public mounted(): void {
@@ -23,5 +23,3 @@ export default class Game extends Vue {
   }
 }
 </script>
-
-<style lang="less"/>

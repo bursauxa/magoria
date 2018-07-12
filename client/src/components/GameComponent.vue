@@ -25,7 +25,7 @@ export default class GameComponent extends Vue {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .gcomp {
   margin: 5px;
 

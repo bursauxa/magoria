@@ -1,4 +1,4 @@
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import GameDescriptor from '@/models/GameDescriptor';
 import LobbyService from '@/services/LobbyService';
 import GameComponent from '@/components/GameComponent.vue';
@@ -8,7 +8,7 @@ import GameComponent from '@/components/GameComponent.vue';
     GameComponent
   }
 })
-export default class Lobby extends Vue {
+export default class LobbyVue extends Vue {
   private readonly lobbyService: LobbyService;
   private onGameCreatedCallbackId?: string;
 

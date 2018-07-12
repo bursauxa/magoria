@@ -1,5 +1,6 @@
 <template>
   <div class="lobby">
+    <h1>Lobby</h1>
     <div class="add-box-flex">
       <div class="add-box-border">
         <div class="add-box-row">

@@ -5,4 +5,14 @@
   </div>
 </template>
 
-<script lang="ts" src="./Home.ts"/>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from '@/components/HelloWorld.vue';
+
+@Component({
+  components: {
+    HelloWorld
+  }
+})
+export default class HomeVue extends Vue {}
+</script>
