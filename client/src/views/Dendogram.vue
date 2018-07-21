@@ -37,9 +37,9 @@
 
       <!-- We can now also use events to elements that will call respective methods on the Vue instance -->      
       <transition-group tag="g" name="list">
-        <g class="node" v-on:click="select(index, node)" v-for="(node, index) in nodes" :key="node.id" :style="node.style" :class="[node.className, {'highlight': node.highlight}]">
+        <g class="node" v-on:click="select(node)" v-for="node in nodes" :key="node.id" :style="node.style" :class="[node.className, {'highlight': node.highlight}]">
           <!-- Circles for each node -->  
-          <circle :r="node.r" :style="{'fill': index == selected ? '#ff0000' : '#bfbfbf'}"></circle>
+          <circle :r="node.r" :style="{'fill': node === selected ? '#ff0000' : '#bfbfbf'}"></circle>
           <!-- Finally, text labels -->
           <text :dx="node.textpos.x" :dy="node.textpos.y" :style="node.textStyle">{{ node.text }}</text>
         </g>
@@ -51,95 +51,108 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import { Component, Vue } from 'vue-property-decorator';
-import * as flare from '@/assets/flare.csv';
+import * as csv from '@/assets/flare.csv';
+import { HierarchyPointNode, HierarchyNode, ClusterLayout } from 'd3';
+
+type FlareNode = {id: string, value: number};
+type DendogramSettings = {strokeColor: string, width: number, height: number};
 
 @Component
 export default class DendogramVue extends Vue {
-  public csv: {id: string, value: number}[] = flare;
+
+  public flareData: FlareNode[] = csv;
   public selected: any = null;
-  public search: any = 'force';
-  public settings: any = {
+  public search: string = 'force';
+  public settings: DendogramSettings = {
     strokeColor: '#19B5FF',
     width: 960,
     height: 2000
   };
     
-  public get root(): any {
-    if (this.csv) {
-      var stratify = d3.stratify().parentId((d: any) => {
-        return d.id.substring(0, d.id.lastIndexOf('.'));
-      });
+  public get root(): HierarchyPointNode<FlareNode> {
+    const stratify = d3
+      .stratify<FlareNode>()
+      .parentId(node => node.id.substring(0, node.id.lastIndexOf('.')));
 
-      // attach the tree to the Vue data object
-      return this.tree(
-        stratify(this.csv).sort(function(a: any, b: any) {
-          return a.height - b.height || a.id.localeCompare(b.id);
-        })
-      );
+    // attach the tree to the Vue data object
+    return this.tree(stratify(this.flareData).sort(DendogramVue.compareNodes));
+  }
+
+  private static compareNodes(a: HierarchyNode<FlareNode>, b: HierarchyNode<FlareNode>): number {
+    if (a.id === undefined || b.id === undefined) {
+      throw 'Invalid comparison: nodes must have been created with stratify()';
+    } else {
+      return a.height - b.height || a.id.localeCompare(b.id);
     }
   }
     
   // the 'tree' is also a computed property so that it is always up to date when the width and height settings change   
-  public get tree() {
+  public get tree(): ClusterLayout<FlareNode> {
     return d3
-      .cluster()
+      .cluster<FlareNode>()
       .size([this.settings.height, this.settings.width - 160]);
   }
     
   // Instead of enter, update, exit, we mainly use computed properties and instead of 'd3.data()' we can use array.map to create objects that hold class names, styles, and other attributes for each datum  
   public get nodes() {
-    if (this.root) {
-      return this.root.descendants().map((d: any) => {
-        return {
-          id: d.id,
-          r: 2.5,
-          className: 'node' +
-            (d.children ? ' node--internal' : ' node--leaf'),
-          text: d.id.substring(d.id.lastIndexOf('.') + 1),
-          highlight: d.id.toLowerCase().indexOf(this.search.toLowerCase()) != -1 && this.search != '',
-          style: {
-            transform: 'translate(' + d.y + 'px,' + d.x + 'px)'
-          },
-          textpos: {
-            x: d.children ? -8 : 8,
-            y: 3
-          },
-          textStyle: {
-            textAnchor: d.children ? 'end' : 'start'
-          }
-        };
-      });
+    return this.root.descendants().map(node => this.mapNode(node));
+  }
+
+  private mapNode(node: HierarchyPointNode<FlareNode>) {
+    if (node.id === undefined) {
+      throw 'Invalid mapping: nodes must have been created with stratify()';
     }
+
+    return {
+      id: node.id,
+      r: 2.5,
+      className: 'node' + (node.children ? ' node--internal' : ' node--leaf'),
+      text: node.id.substring(node.id.lastIndexOf('.') + 1),
+      highlight: this.search != '' && node.id.toLowerCase().includes(this.search.toLowerCase()),
+      style: {
+        transform: 'translate(' + node.y + 'px,' + node.x + 'px)'
+      },
+      textpos: {
+        x: node.children ? -8 : 8,
+        y: 3
+      },
+      textStyle: {
+        textAnchor: node.children ? 'end' : 'start'
+      }
+    };
   }
     
   // Instead of enter, update, exit, we mainly use computed properties and instead of 'd3.data()' we can use array.map to create objects that hold class names, styles, and other attributes for each datum   
   public get links() {
-    if (this.root) {
+    // here we’ll calculate the 'd' attribute for each path that is then used in the template where we use 'v-for' to loop through all of the links to create <path> elements
+    return this.root.descendants().slice(1).map(node => this.mapLink(node));
+  }
 
-      // here we’ll calculate the 'd' attribute for each path that is then used in the template where we use 'v-for' to loop through all of the links to create <path> elements
-      return this.root.descendants().slice(1).map((d: any) => {
-        return {
-          id: d.id,
-          d: 'M' + d.y + ',' + d.x + 'C' + (d.parent.y + 100) + ',' + d.x + ' ' + (d.parent.y + 100) + ',' + d.parent.x + ' ' + d.parent.y + ',' + d.parent.x,
-          
-          // here we could of course calculate colors depending on data but for now all links share the same color from the settings object that we can manipulate using UI controls and v-model    
-          style: {
-            stroke: this.settings.strokeColor
-          }
-        };
-      });
+  private mapLink(node: HierarchyPointNode<FlareNode>) {
+    if (node.parent === null) {
+      throw 'Invalid mapping: may not be used on root node';
     }
+    
+    return {
+      id: node.id,
+      d: 'M' + node.y + ',' + node.x + 'C' + (node.parent.y + 100) + ',' + node.x + ' ' + (node.parent.y + 100) + ',' + node.parent.x + ' ' + node.parent.y + ',' + node.parent.x,
+      
+      // here we could of course calculate colors depending on data but for now all links share the same color from the settings object that we can manipulate using UI controls and v-model    
+      style: {
+        stroke: this.settings.strokeColor
+      }
+    };
   }
   
   public add(): void {
-    this.csv.push({
+    this.flareData.push({
       id: 'flare.physics.Dummy',
       value: 0
     })
   }
 
-  public select(index: any, node: any): void {
-    this.selected = index;
+  public select(visualNode: any): void {
+    this.selected = visualNode;
   }
 }
 </script>
