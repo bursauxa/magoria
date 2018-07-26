@@ -1,0 +1,78 @@
+.dendogram {
+    .node {
+        opacity: 1;
+    
+        circle {
+            fill: #999;
+            cursor: pointer;
+        }
+    
+        text {
+            font: 10px sans-serif;
+            cursor: pointer;
+        }
+    
+        &:hover {
+            pointer-events: all;
+            stroke: #ff0000;
+        }
+    
+        &.highlight {
+            fill: red;
+        }
+    }
+  
+    .node--internal {
+        circle {
+            fill: #555;
+        }
+    
+        text {
+            text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+        }
+    }
+  
+    .link {
+        fill: none;
+        stroke: #555;
+        stroke-opacity: 0.4;
+        stroke-width: 1.5px;
+        stroke-dasharray: 1000;
+    }
+  
+    .controls {
+        position: fixed;
+        top: 160px;
+        left: 16px;
+        background: #f8f8f8;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+  
+        > * + * {
+            margin-top: 1rem;
+        }
+    
+        label {
+            display: block;
+        }
+    }
+  
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    
+    .list-enter, .list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+  
+    .line-enter-active, .line-leave-active {
+        transition: all 2s;
+        stroke-dashoffset: 0;
+    }
+  
+    .line-enter, .line-leave-to {
+        stroke-dashoffset: 1000;
+    }
+}

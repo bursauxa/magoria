@@ -30,6 +30,8 @@
   </div>
 </template>
 
-<script lang="ts" src="./Lobby.ts"/>
+<script lang="ts" src="./Lobby.vue.ts">
+</script>
 
-<style lang="less" src="./Lobby.less"/>
+<style lang="less" src="./Lobby.vue.less">
+</style>

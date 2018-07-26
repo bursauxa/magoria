@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HomeVue from './views/Home.vue';
-import GameVue from './views/Game.vue';
-import DendogramVue from './views/Dendogram.vue';
-import LobbyVue from '@/views/Lobby';
+import HomeVue from '@/views/Home.vue';
+import GameVue from '@/views/Game.vue';
+import DendogramVue from '@/views/Dendogram.vue';
+import LobbyVue from '@/views/Lobby.vue';
 
 Vue.use(Router);
 
