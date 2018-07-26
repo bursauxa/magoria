@@ -7,6 +7,11 @@ Sample application with Mongo, .NET Core MVP, SignalR, Vue with strict TS.
 - have a recent enough node/npm installation
 - install MongoDB, the default installation should have it running on `localhost:27017` (can be changed in `DataSource.cs`)
 
+## How to run
+- prepare dependencies: execute `dotnet restore` in the `server` folder; execute `npm install` in the `client` folder
+- in VS Code : **start debugging** will launch the server; **tasks > serve** will launch the client
+- alternatively, from the command line: `dotnet run` in the `server` folder; `npm serve` in the `client` folder
+
 ## Port routing & CORS
 For development on your own computer, it is possible to simply rewrite the URLs in `LobbyService.ts` to target `localhost:5000`, as well as add `localhost:8080` to accepted origins in `Startup.cs`.
 
