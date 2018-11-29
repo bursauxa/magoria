@@ -15,17 +15,17 @@ export default class LobbyService {
     this.connection.start().catch(err => { throw err.toString(); });
   }
 
-  public getAll(): Promise<GameDescriptor[]> {
+  public async getAll(): Promise<GameDescriptor[]> {
     return Axios({ method: 'GET', url: '/api/lobby' })
       .then(result => GameDescriptor.fromServerObjects(result.data), error => { throw error; });
   }
 
-  public getOne(id: string): Promise<GameDescriptor> {
+  public async getOne(id: string): Promise<GameDescriptor> {
     return Axios({ method: 'GET', url: '/api/lobby/' + id })
       .then(result => GameDescriptor.fromServerObject(result.data), error => { throw error; });
   }
 
-  public put(game: GameDescriptor): Promise<GameDescriptor> {
+  public async put(game: GameDescriptor): Promise<GameDescriptor> {
     return Axios({ method: 'PUT', url: '/api/lobby', data: game })
       .then(result => GameDescriptor.fromServerObject(result.data), error => { throw error; });
   }

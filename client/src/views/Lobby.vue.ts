@@ -26,10 +26,9 @@ export default class LobbyVue extends Vue {
     this.lobbyService = LobbyService.instance;
   }
 
-  public mounted(): void {
-    this.lobbyService.getAll().then(games => this.descriptors = games);
+  public async mounted(): Promise<void> {
+    this.descriptors = await this.lobbyService.getAll();
     this.onGameCreatedCallbackId = this.lobbyService.onGameCreated(game => this.onGameCreated(game));
-    // this.lobbyService.offGameCreated(id); // uncomment this to test unsubscription
   }
 
   public destroyed(): void {
