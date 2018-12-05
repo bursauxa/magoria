@@ -9,7 +9,8 @@ namespace Magoria.Server.Accessors
         static DataSource() {
             ConventionPack pack = new ConventionPack();
             pack.Add(new IgnoreExtraElementsConvention(true));
-            ConventionRegistry.Register("IgnoreExtraElements", pack, _ => true);
+            pack.Add(new CamelCaseElementNameConvention());
+            ConventionRegistry.Register("JustLikeNewtonsoft", pack, _ => true);
             client = new MongoClient("mongodb://localhost:27017");
         }
         
