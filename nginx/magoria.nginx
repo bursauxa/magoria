@@ -16,6 +16,6 @@ server {
 	}
 	
 	location /web/ {
-	    proxy_pass http://localhost:8080/web/;
+	    proxy_pass http://localhost:6738/web/;
 	}
 }

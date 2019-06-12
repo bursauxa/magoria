@@ -17,9 +17,11 @@ Sample application with Mongo, .NET Core MVP, SignalR, Vue with strict TS.
 
 ## Port routing & CORS
 
-For development on your own computer, it is possible to simply rewrite the URLs in `LobbyService.ts` to target `localhost:5000`, as well as add `localhost:8080` to accepted origins in `Startup.cs`.
+For development on your own computer, it is possible to simply rewrite the URLs in `LobbyService.ts` to target `localhost:5000`, as well as add `localhost:6738` to accepted origins in `Startup.cs`.
 
-Alternatively, if you want it to work on the network (from other computers), a nginx configuration is provided. First install nginx, then run the following commands:
+The recommended solution is to proxy the services behind a HTTP proxy. This will not prevent nice development features, such as source mapping or live reload, from working. It can also be used on a production platform as long as it is single-instance.
+
+To simplify this step, a nginx configuration is provided in the project. To use it, first install [nginx](https://www.nginx.com/), then run the following commands (`sudo` may be required):
 
 ```bash
 cp ./nginx/magoria.nginx /etc/nginx/sites-available
