@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/router';
-import Draggable from './lib/draggable';
+import draggable from './lib/draggable';
+import droppable from './lib/droppable';
 
 Vue.config.productionTip = false;
-Vue.directive('draggable', Draggable);
+Vue.directive('draggable', draggable);
+Vue.directive('droppable', droppable);
 
 new Vue({
   router,

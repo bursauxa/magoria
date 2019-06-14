@@ -15,27 +15,27 @@ function findClosestMountedComponent(node: VNode) {
     return null;
 }
 
-function createMousedownHandler(draggableElement: HTMLElement, binding: VNodeDirective, node: VNode) {
+function createMouseupHandler(droppableElement: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (evt: MouseEvent) => {
         const vue = findClosestMountedComponent(node);
         let data = vue;
-        if (vue && draggableElement.hasAttribute(datapathAttribute)) {
-            const datapath = draggableElement.getAttribute(datapathAttribute);
+        if (vue && droppableElement.hasAttribute(datapathAttribute)) {
+            const datapath = droppableElement.getAttribute(datapathAttribute);
             if (datapath !== null) {
                 data = (vue as any)[datapath];
             }
         }
-        GlobalDragState.start(evt.target!, draggableElement, vue, evt.offsetX, evt.offsetY, data);
+        GlobalDragState.complete(evt.target!, droppableElement, vue, evt.offsetX, evt.offsetY, data);
+        if (vue) {
+            vue.$emit('drag-drop-completed', GlobalDragState.buildEventData());
+        }
     };
 }
 
-const draggable: DirectiveOptions = {
-    bind() {
-        GlobalDragState.addRootHandlerIfNeeded();
-    },
+const droppable: DirectiveOptions = {
     inserted(el: HTMLElement, binding: VNodeDirective, node: VNode) {
-        el.addEventListener('mousedown', createMousedownHandler(el, binding, node), false);
+        el.addEventListener('mouseup', createMouseupHandler(el, binding, node), false);
     }
 };
 
-export default draggable;
+export default droppable;

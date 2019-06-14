@@ -1,6 +1,6 @@
 import TokenOrientation from '@/models/TokenOrientation';
 
-export default class ShapeModel {
+export default class TokenModel {
   public id: string;
   public orientation: TokenOrientation = TokenOrientation.North;
 
