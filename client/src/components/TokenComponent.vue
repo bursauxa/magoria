@@ -1,5 +1,5 @@
 <template>
-    <svg class="token" width=128 height=128 v-draggable v-droppable d-atapath="token">
+    <svg class="token" width=128 height=128 v-draggable="token" v-droppable="token">
         <rect width=100 height=100 x=14 v-on:click="token.changeTone()" :class="token.tone"></rect>
         <g v-on:click="token.rotate()" :transform="'rotate(' + token.orientationAsDegrees + ', 64, 50)'">
             <circle r=20 cx=64 cy=50></circle>

@@ -1,7 +1,6 @@
 import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
 import GlobalDragState from './drag-state';
-
-const datapathAttribute = 'd-atapath';
+import { noop } from 'vue-class-component/lib/util';
 
 function findClosestMountedComponent(node: VNode) {
     let current: VNode | undefined = node;
@@ -16,25 +15,20 @@ function findClosestMountedComponent(node: VNode) {
 }
 
 function createMousedownHandler(draggableElement: HTMLElement, binding: VNodeDirective, node: VNode) {
-    return (evt: MouseEvent) => {
+    return (event: MouseEvent) => {
         const vue = findClosestMountedComponent(node);
-        let data = vue;
-        if (vue && draggableElement.hasAttribute(datapathAttribute)) {
-            const datapath = draggableElement.getAttribute(datapathAttribute);
-            if (datapath !== null) {
-                data = (vue as any)[datapath];
-            }
-        }
-        GlobalDragState.start(evt.target!, draggableElement, vue, evt.offsetX, evt.offsetY, data);
+        const data = binding.value ? binding.value : vue;
+        GlobalDragState.start(event.target!, draggableElement, vue, event.offsetX, event.offsetY, data);
     };
 }
 
 const draggable: DirectiveOptions = {
-    bind() {
+    bind(el: HTMLElement, binding: VNodeDirective, node: VNode) {
         GlobalDragState.addRootHandlerIfNeeded();
-    },
-    inserted(el: HTMLElement, binding: VNodeDirective, node: VNode) {
         el.addEventListener('mousedown', createMousedownHandler(el, binding, node), false);
+    },
+    unbind(el: HTMLElement) {
+        el.removeEventListener('mousedown', (evt: MouseEvent) => { noop(); }, false);
     }
 };
 

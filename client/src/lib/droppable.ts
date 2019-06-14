@@ -1,7 +1,6 @@
 import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
 import GlobalDragState from './drag-state';
-
-const datapathAttribute = 'd-atapath';
+import { noop } from 'vue-class-component/lib/util';
 
 function findClosestMountedComponent(node: VNode) {
     let current: VNode | undefined = node;
@@ -16,16 +15,10 @@ function findClosestMountedComponent(node: VNode) {
 }
 
 function createMouseupHandler(droppableElement: HTMLElement, binding: VNodeDirective, node: VNode) {
-    return (evt: MouseEvent) => {
+    return (event: MouseEvent) => {
         const vue = findClosestMountedComponent(node);
-        let data = vue;
-        if (vue && droppableElement.hasAttribute(datapathAttribute)) {
-            const datapath = droppableElement.getAttribute(datapathAttribute);
-            if (datapath !== null) {
-                data = (vue as any)[datapath];
-            }
-        }
-        GlobalDragState.complete(evt.target!, droppableElement, vue, evt.offsetX, evt.offsetY, data);
+        const data = binding.value ? binding.value : vue;
+        GlobalDragState.complete(event.target!, droppableElement, vue, event.offsetX, event.offsetY, data);
         if (vue) {
             vue.$emit('drag-drop-completed', GlobalDragState.buildEventData());
         }
@@ -33,8 +26,11 @@ function createMouseupHandler(droppableElement: HTMLElement, binding: VNodeDirec
 }
 
 const droppable: DirectiveOptions = {
-    inserted(el: HTMLElement, binding: VNodeDirective, node: VNode) {
+    bind(el: HTMLElement, binding: VNodeDirective, node: VNode) {
         el.addEventListener('mouseup', createMouseupHandler(el, binding, node), false);
+    },
+    unbind(el: HTMLElement) {
+        el.removeEventListener('mousedown', (evt: MouseEvent) => { noop(); }, false);
     }
 };
 
