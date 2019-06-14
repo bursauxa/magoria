@@ -3,7 +3,8 @@
     <h1>Tokens</h1>
 
 		<svg width=512 height=128>    
-      <TokenComponent v-for="(datum, index) in data" :key="datum.id" :x="index * 128" :token="datum" v-on:drag-drop-completed="onDragDropCompleted"/>
+      <TokenComponent v-for="(datum, index) in data" :key="datum.id" :x="index * 128" :token="datum"
+                      v-on:drag-drop-completed="onDragDropCompleted"/>
   	</svg>
 	</div>
 </template>
@@ -28,7 +29,10 @@ export default class TokensVue extends Vue {
   ];
 
   private onDragDropCompleted(evt: DragDropEventData): void {
-      console.log('dropped ' + evt.source.data.id + ' in ' + evt.target.data.id);
+    const sourceIndex = this.data.findIndex(token => token === evt.source.data);
+    const targetIndex = this.data.findIndex(token => token === evt.target.data);
+    Vue.set(this.data, sourceIndex, evt.target.data);
+    Vue.set(this.data, targetIndex, evt.source.data);
   }
 }
 </script>
