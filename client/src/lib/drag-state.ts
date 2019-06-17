@@ -59,12 +59,11 @@ class DragState {
         directiveHolder: HTMLElement,
         associatedVueComponent: Vue | null,
         offsetX: number,
-        offsetY: number,
-        data?: any) {
+        offsetY: number) {
         // TODO : disallow from started
         if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
             this.targetData = new DragDropData(
-                eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
+                eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY);
             this.status = DragStatus.Completed;
         }
     }

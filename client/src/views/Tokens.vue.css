@@ -1,0 +1,15 @@
+.tokens {
+  user-select: none;
+}
+
+.delete-area-flex {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  text-align: left;
+}
+
+.delete-area-border {
+  padding: 32px;
+  border: 1px black solid;
+}

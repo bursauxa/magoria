@@ -17,15 +17,15 @@ function findClosestMountedComponent(node: VNode) {
 function createMouseupHandler(droppableElement: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (event: MouseEvent) => {
         const vue = findClosestMountedComponent(node);
-        const data = binding.value ? binding.value : vue;
-        GlobalDragState.complete(event.target!, droppableElement, vue, event.offsetX, event.offsetY, data);
-        if (vue) {
-            vue.$emit('drag-drop-completed', GlobalDragState.buildEventData());
+        if (typeof binding.value !== 'function') {
+            throw new Error('v-on-drop handler is not a function');
         }
+        GlobalDragState.complete(event.target!, droppableElement, vue, event.offsetX, event.offsetY);
+        binding.value.apply(null, [GlobalDragState.buildEventData()]);
     };
 }
 
-const droppable: DirectiveOptions = {
+const onDrop: DirectiveOptions = {
     bind(el: HTMLElement, binding: VNodeDirective, node: VNode) {
         el.addEventListener('mouseup', createMouseupHandler(el, binding, node), false);
     },
@@ -34,4 +34,4 @@ const droppable: DirectiveOptions = {
     }
 };
 
-export default droppable;
+export default onDrop;

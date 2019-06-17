@@ -1,5 +1,5 @@
 <template>
-    <svg class="token" width=128 height=128 v-draggable="token" v-droppable="token">
+    <svg class="token" width=128 height=128 v-draggable="token" v-on-drop="onDropped">
         <rect width=100 height=100 x=14 v-on:click="token.changeTone()" :class="token.tone"></rect>
         <g v-on:click="token.rotate()" :transform="'rotate(' + token.orientationAsDegrees + ', 64, 50)'">
             <circle r=20 cx=64 cy=50></circle>
@@ -13,10 +13,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import TokenModel from '@/models/TokenModel';
+import DragDropEventData from '@/lib/DragDropEventData';
 
 @Component
 export default class TokenComponent extends Vue {
     @Prop() private token!: TokenModel;
+
+    private onDropped(evt: DragDropEventData): void {
+        evt.target.data = this.token;
+        this.$emit('token-drop-completed', evt);
+    }
 }
 </script>
 
