@@ -3,6 +3,7 @@ import TokenOrientation from '@/models/TokenOrientation';
 export default class TokenModel {
   public id: string;
   public orientation: TokenOrientation = TokenOrientation.North;
+  public thick = false;
 
   private tones = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
   private toneIndex = 0;

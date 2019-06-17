@@ -16,7 +16,7 @@ class DragState {
     private status = DragStatus.Initial;
     private rootHandlerAlreadyAdded = false;
 
-    public addRootHandlerIfNeeded() {
+    public addRootHandlerIfNeeded(): void {
         if (!this.rootHandlerAlreadyAdded) {
             this.rootHandlerAlreadyAdded = true;
             document.addEventListener('mouseup', () => this.abort());
@@ -29,10 +29,8 @@ class DragState {
         associatedVueComponent: Vue | null,
         offsetX: number,
         offsetY: number,
-        data?: any) {
-        if (this.status === DragStatus.Initial
-        || this.status === DragStatus.Completed
-        || this.status === DragStatus.Aborted) {
+        data?: any): boolean {
+        if (this.status === DragStatus.Initial || this.status === DragStatus.Completed || this.status === DragStatus.Aborted) {
             this.sourceData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
             this.targetData = null;
@@ -49,7 +47,7 @@ class DragState {
         associatedVueComponent: Vue | null,
         offsetX: number,
         offsetY: number,
-        data?: any) {
+        data?: any): boolean {
         if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
             this.targetData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
@@ -65,9 +63,8 @@ class DragState {
         directiveHolder: HTMLElement,
         associatedVueComponent: Vue | null,
         offsetX: number,
-        offsetY: number) {
-        // TODO : disallow from started
-        if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
+        offsetY: number): boolean {
+        if (this.status === DragStatus.InProgress) {
             this.targetData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY);
             this.status = DragStatus.Completed;
@@ -77,9 +74,8 @@ class DragState {
         }
     }
 
-    public abort() {
-        // TODO : disallow from started
-        if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
+    public abort(): boolean {
+        if (this.status === DragStatus.InProgress) {
             this.targetData = null;
             this.status = DragStatus.Aborted;
             return true;
@@ -88,7 +84,7 @@ class DragState {
         }
     }
 
-    public buildEventData() {
+    public buildEventData(): DragDropEventData | null {
         if (this.status !== DragStatus.InProgress && this.status !== DragStatus.Completed) {
             return null;
         } else {

@@ -1,9 +1,9 @@
 <template>
-    <svg class="token" width=128 height=128 v-draggable="token" v-on-drop="onDropped">
-        <rect width=100 height=100 x=14 v-on:click="token.changeTone()" :class="token.tone"></rect>
-        <g v-on:click="token.rotate()" :transform="'rotate(' + token.orientationAsDegrees + ', 64, 50)'">
-            <circle r=20 cx=64 cy=50></circle>
-            <polygon points="64,33 74,64 54,64" ></polygon>
+    <svg class="token" width=128 height=128 v-draggable="token" v-on-drop="onDropped" v-on-drag="onDragged">
+        <rect width=100 height=100 x=14 y=4 v-on:click="token.changeTone()" :class="[token.tone, token.thick ? 'thick' : '']"></rect>
+        <g v-on:click="token.rotate()" :transform="'rotate(' + token.orientationAsDegrees + ', 64, 54)'">
+            <circle r=20 cx=64 cy=54></circle>
+            <polygon points="64,37 74,68 54,68" ></polygon>
         </g>
         <text x=64 y=114>{{ token.id }}</text>
         <span>toto</span>
@@ -22,6 +22,12 @@ export default class TokenComponent extends Vue {
     private onDropped(evt: DragDropEventData): void {
         evt.target.data = this.token;
         this.$emit('token-drop-completed', evt);
+    }
+
+    private onDragged(evt: DragDropEventData): void {
+        evt.target.data = this.token;
+        this.$emit('token-drag-in-progress', evt);
+        evt.handled = true;
     }
 }
 </script>
