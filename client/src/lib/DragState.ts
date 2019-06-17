@@ -1,5 +1,5 @@
 import DragDropEventData from './DragDropEventData';
-import DragDropData from './DragData';
+import DragDropData from './DragDropData';
 import Vue from 'vue';
 
 enum DragStatus {
@@ -31,12 +31,15 @@ class DragState {
         offsetY: number,
         data?: any) {
         if (this.status === DragStatus.Initial
-            || this.status === DragStatus.Completed
-            || this.status === DragStatus.Aborted) {
-                this.sourceData = new DragDropData(
-                    eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
-                this.targetData = null;
-                this.status = DragStatus.Started;
+        || this.status === DragStatus.Completed
+        || this.status === DragStatus.Aborted) {
+            this.sourceData = new DragDropData(
+                eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
+            this.targetData = null;
+            this.status = DragStatus.Started;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -51,6 +54,9 @@ class DragState {
             this.targetData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
             this.status = DragStatus.InProgress;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -65,6 +71,9 @@ class DragState {
             this.targetData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY);
             this.status = DragStatus.Completed;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -73,6 +82,9 @@ class DragState {
         if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
             this.targetData = null;
             this.status = DragStatus.Aborted;
+            return true;
+        } else {
+            return false;
         }
     }
 
