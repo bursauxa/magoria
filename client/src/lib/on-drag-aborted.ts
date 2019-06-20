@@ -1,8 +1,8 @@
-import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
+import { DirectiveOptions, VNodeDirective } from 'vue';
 import { noop } from 'vue-class-component/lib/util';
 import { DragAbortedEventData } from './DragDropEventData';
 
-function createMousemoveHandler(element: HTMLElement, binding: VNodeDirective, node: VNode) {
+function createMousemoveHandler(binding: VNodeDirective) {
     return (event: Event) => {
         if (typeof binding.value !== 'function') {
             throw new Error('v-on-drag-aborted handler is not a function');
@@ -18,10 +18,10 @@ function createMousemoveHandler(element: HTMLElement, binding: VNodeDirective, n
 }
 
 const onDragAborted: DirectiveOptions = {
-    bind(el: HTMLElement, binding: VNodeDirective, node: VNode) {
-        document.addEventListener('drag-aborted', createMousemoveHandler(el, binding, node), false);
+    bind(el: HTMLElement, binding: VNodeDirective) {
+        document.addEventListener('drag-aborted', createMousemoveHandler(binding), false);
     },
-    unbind(el: HTMLElement) {
+    unbind() {
         document.removeEventListener('drag-aborted', (evt: Event) => { noop(); }, false);
     }
 };

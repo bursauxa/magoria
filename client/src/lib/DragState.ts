@@ -1,6 +1,5 @@
-import DragDropData from './DragDropData';
 import Vue from 'vue';
-import { DragDropEventData, DragStatus } from './DragDropEventData';
+import { DragDropEventData, DragStatus, DragDropData } from './DragDropEventData';
 
 class DragState {
     private sourceData: DragDropData | null = null;
@@ -64,7 +63,7 @@ class DragState {
         associatedVueComponent: Vue | null,
         offsetX: number,
         offsetY: number): boolean {
-        if (this.status === DragStatus.InProgress) {
+        if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
             this.targetData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY);
             this.status = DragStatus.Completed;
@@ -75,7 +74,7 @@ class DragState {
     }
 
     public abort(): boolean {
-        if (this.status === DragStatus.InProgress) {
+        if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
             this.targetData = null;
             this.status = DragStatus.Aborted;
             return true;

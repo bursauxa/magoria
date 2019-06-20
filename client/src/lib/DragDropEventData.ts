@@ -1,4 +1,14 @@
-import DragDropData from './DragDropData';
+import Vue from 'vue';
+
+export class DragDropData {
+    constructor(
+        public eventTarget: EventTarget,
+        public directiveHolder: HTMLElement,
+        public associatedVueComponent: Vue | null,
+        public offsetX: number,
+        public offsetY: number,
+        public data?: any) {}
+}
 
 export enum DragStatus {
     Started = 'Started',
