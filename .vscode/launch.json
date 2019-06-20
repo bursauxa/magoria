@@ -1,15 +1,22 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
    "version": "0.2.0",
-   "configurations": [
+   "configurations": [       
         {
-            "name": ".NET Core Launch (web)",
+           "type": "chrome",
+           "request": "launch",
+           "name": "Debug client",
+           "url": "http://localhost/web",
+           "webRoot": "${workspaceFolder}/client/src",
+           "breakOnLoad": true,
+           "sourceMapPathOverrides": {
+             "webpack:///./src/*": "${webRoot}/*"
+           }
+        },
+        {
             "type": "coreclr",
             "request": "launch",
+            "name": "Debug server",
             "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/server/bin/Debug/netcoreapp2.1/server.dll",
             "args": [],
             "cwd": "${workspaceFolder}/server",
@@ -32,12 +39,6 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
         }
     ]
 }

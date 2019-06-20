@@ -1,5 +1,8 @@
 module.exports = {
     baseUrl: 'web',
+    configureWebpack: {
+      devtool: 'source-map'
+    },
     chainWebpack: config => {
       config.module
         .rule('csv')
