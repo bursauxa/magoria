@@ -3,10 +3,11 @@ import TokenOrientation from '@/models/TokenOrientation';
 export default class TokenModel {
   public id: string;
   public orientation: TokenOrientation = TokenOrientation.North;
+
   public thick = false;
 
   private tones = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
-  private toneIndex = 0;
+  public toneIndex = 0;
 
   public constructor(id: string, orientation?: TokenOrientation) {
     this.id = id;
@@ -17,7 +18,7 @@ export default class TokenModel {
     return this.tones[this.toneIndex];
   }
 
-  public changeTone() {
+  public changeTone(): void {
     this.toneIndex = (this.toneIndex + 1) % this.tones.length;
   }
 

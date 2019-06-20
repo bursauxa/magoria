@@ -11,11 +11,9 @@ function createMousemoveHandler(element: HTMLElement, binding: VNodeDirective, n
         }
         if (GlobalDragState.progress(event.target!, element, vue, event.offsetX, event.offsetY)) {
             const dragDropEventData = GlobalDragState.buildEventData();
-            if (dragDropEventData) {
-                binding.value.apply(null, [dragDropEventData]);
-                if (dragDropEventData.handled) {
-                    event.stopPropagation();
-                }
+            binding.value.apply(null, [dragDropEventData]);
+            if ((dragDropEventData as any).handled) {
+                event.stopPropagation();
             }
         }
     };

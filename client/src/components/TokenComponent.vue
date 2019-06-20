@@ -1,5 +1,5 @@
 <template>
-    <svg class="token" width=128 height=128 v-draggable="token" v-on-drop="onDropped" v-on-drag="onDragged">
+    <svg class="token" :class="token.ghost ? 'ghost' : ''" width=128 height=128 v-draggable="token" v-on-drop="onDropped" v-on-drag="onDragged">
         <rect width=100 height=100 x=14 y=4 v-on:click="token.changeTone()" :class="[token.tone, token.thick ? 'thick' : '']"></rect>
         <g v-on:click="token.rotate()" :transform="'rotate(' + token.orientationAsDegrees + ', 64, 54)'">
             <circle r=20 cx=64 cy=54></circle>
@@ -13,21 +13,26 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import TokenModel from '@/models/TokenModel';
-import DragDropEventData from '@/lib/DragDropEventData';
+import GhostToken from '@/models/GhostToken';
+import { DragCompletedEventData, DragInProgressEventData } from '@/lib/DragDropEventData';
 
 @Component
 export default class TokenComponent extends Vue {
     @Prop() private token!: TokenModel;
 
-    private onDropped(evt: DragDropEventData): void {
-        evt.target.data = this.token;
-        this.$emit('token-drop-completed', evt);
+    private onDropped(evt: DragCompletedEventData): void {
+        if (!(this.token instanceof GhostToken)) {
+            evt.target.data = this.token;
+            this.$emit('token-drop-completed', evt);
+        }
     }
 
-    private onDragged(evt: DragDropEventData): void {
-        evt.target.data = this.token;
-        this.$emit('token-drag-in-progress', evt);
-        evt.handled = true;
+    private onDragged(evt: DragInProgressEventData): void {
+        if (!(this.token instanceof GhostToken)) {
+            evt.target.data = this.token;
+            this.$emit('token-drag-in-progress', evt);
+            evt.handled = true;
+        }
     }
 }
 </script>

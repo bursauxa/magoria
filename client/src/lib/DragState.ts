@@ -1,25 +1,23 @@
-import DragDropEventData from './DragDropEventData';
 import DragDropData from './DragDropData';
 import Vue from 'vue';
-
-enum DragStatus {
-    Initial = 'Initial',
-    Started = 'Started',
-    InProgress = 'InProgress',
-    Completed = 'Completed',
-    Aborted = 'Aborted'
-}
+import { DragDropEventData, DragStatus } from './DragDropEventData';
 
 class DragState {
     private sourceData: DragDropData | null = null;
     private targetData: DragDropData | null = null;
-    private status = DragStatus.Initial;
+    private status?: DragStatus;
     private rootHandlerAlreadyAdded = false;
 
-    public addRootHandlerIfNeeded(): void {
+    private addRootHandlerIfNeeded(): void {
         if (!this.rootHandlerAlreadyAdded) {
             this.rootHandlerAlreadyAdded = true;
-            document.addEventListener('mouseup', () => this.abort());
+            document.addEventListener('mouseup', () => this.handleRootMouseUp());
+        }
+    }
+
+    private handleRootMouseUp(): void {
+        if (this.abort()) {
+            document.dispatchEvent(new CustomEvent('drag-aborted', { detail: this.buildEventData() }));
         }
     }
 
@@ -30,7 +28,9 @@ class DragState {
         offsetX: number,
         offsetY: number,
         data?: any): boolean {
-        if (this.status === DragStatus.Initial || this.status === DragStatus.Completed || this.status === DragStatus.Aborted) {
+        this.addRootHandlerIfNeeded();
+
+        if (this.status === undefined || this.status === DragStatus.Completed || this.status === DragStatus.Aborted) {
             this.sourceData = new DragDropData(
                 eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
             this.targetData = null;
@@ -84,11 +84,33 @@ class DragState {
         }
     }
 
-    public buildEventData(): DragDropEventData | null {
-        if (this.status !== DragStatus.InProgress && this.status !== DragStatus.Completed) {
-            return null;
-        } else {
-            return new DragDropEventData(this.sourceData!, this.targetData!);
+    public buildEventData(): DragDropEventData {
+        switch (this.status) {
+            case undefined:
+                throw new Error('Can not build event data when the state is not initialized.');
+            case DragStatus.Started:
+                return {
+                    type: DragStatus.Started,
+                    source: this.sourceData!
+                };
+            case DragStatus.InProgress:
+                return {
+                    type: DragStatus.InProgress,
+                    source: this.sourceData!,
+                    target: this.targetData!,
+                    handled: false
+                };
+            case DragStatus.Completed:
+                return {
+                    type: DragStatus.Completed,
+                    source: this.sourceData!,
+                    target: this.targetData!
+                };
+            case DragStatus.Aborted:
+                return {
+                    type: DragStatus.Aborted,
+                    source: this.sourceData!
+                };
         }
     }
 }
