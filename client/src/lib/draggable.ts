@@ -9,6 +9,7 @@ function createMousedownHandler(element: HTMLElement, binding: VNodeDirective, n
         const data = binding.value;
         const bounds = element.getBoundingClientRect();
         GlobalDragState.start(event.target!, element, vue, event.x - bounds.left, event.y - bounds.top, data);
+        event.stopPropagation();
     };
 }
 

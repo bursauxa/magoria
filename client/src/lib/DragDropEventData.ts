@@ -32,13 +32,14 @@ export interface DragInProgressEventData {
     type: DragStatus.InProgress;
     source: DragDropData;
     target: DragDropData;
-    handled: boolean;
+    metadata: any;
 }
 
 export interface DragCompletedEventData {
     type: DragStatus.Completed;
     source: DragDropData;
     target: DragDropData;
+    metadata: any;
 }
 
 export interface DragAbortedEventData {

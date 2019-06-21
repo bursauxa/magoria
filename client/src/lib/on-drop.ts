@@ -2,6 +2,7 @@ import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
 import { noop } from 'vue-class-component/lib/util';
 import GlobalDragState from './DragState';
 import VueHelper from './VueHelper';
+import { getMetadata, setMetadata } from './DragDropMetadata';
 
 function createMouseupHandler(element: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (event: MouseEvent) => {
@@ -11,11 +12,9 @@ function createMouseupHandler(element: HTMLElement, binding: VNodeDirective, nod
         }
         const bounds = element.getBoundingClientRect();
         if (GlobalDragState.complete(event.target!, element, vue, event.x - bounds.left, event.y - bounds.top)) {
-            const dragDropEventData = GlobalDragState.buildEventData();
+            const dragDropEventData = GlobalDragState.buildEventData(getMetadata(event));
             binding.value.apply(null, [dragDropEventData]);
-            if ((dragDropEventData as any).handled) {
-                event.stopPropagation();
-            }
+            setMetadata(event, dragDropEventData);
         }
     };
 }

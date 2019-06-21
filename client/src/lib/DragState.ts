@@ -79,7 +79,7 @@ class DragState {
         }
     }
 
-    public buildEventData(): DragDropEventData {
+    public buildEventData(metadata?: any): DragDropEventData {
         switch (this.status) {
             case undefined:
                 throw new Error('Can not build event data when the state is not initialized.');
@@ -93,13 +93,14 @@ class DragState {
                     type: DragStatus.InProgress,
                     source: this.sourceData!,
                     target: this.targetData!,
-                    handled: false
+                    metadata
                 };
             case DragStatus.Completed:
                 return {
                     type: DragStatus.Completed,
                     source: this.sourceData!,
-                    target: this.targetData!
+                    target: this.targetData!,
+                    metadata
                 };
             case DragStatus.Aborted:
                 return {

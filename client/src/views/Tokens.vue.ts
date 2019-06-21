@@ -4,6 +4,8 @@ import GhostToken from '@/models/GhostToken';
 import TokenComponent from '@/components/TokenComponent.vue';
 import { DragCompletedEventData, DragInProgressEventData } from '@/lib/DragDropEventData';
 
+const highlightPerformed = 'highlight performed';
+
 @Component({
   components: {
     TokenComponent
@@ -26,14 +28,21 @@ export default class TokensVue extends Vue {
   private onTokenDropCompleted(evt: DragCompletedEventData, token: TokenModel): void {
     const sourceIndex = this.data.findIndex(datum => datum === evt.source.data);
     const targetIndex = this.data.findIndex(datum => datum === token);
-    Vue.set(this.data, sourceIndex, token);
-    Vue.set(this.data, targetIndex, evt.source.data);
+    this.$set(this.data, sourceIndex, token);
+    this.$set(this.data, targetIndex, evt.source.data);
     this.data.forEach(datum => datum.highlighted = false);
     this.ghostToken.hide();
   }
 
-  private onTokenDragInProgress(evt: DragInProgressEventData, token: TokenModel): void {
+  private highlightToken(evt: DragInProgressEventData, token: TokenModel): void {
     this.data.forEach(datum => datum.highlighted = (datum === token));
+    evt.metadata = highlightPerformed;
+  }
+
+  private drawGhost(evt: DragInProgressEventData): void {
+    if (evt.metadata !== highlightPerformed) {
+      this.data.forEach(datum => datum.highlighted = false);
+    }
     if (!this.ghostToken.isVisible) {
       this.ghostToken.replicate(evt.source.data);
     }
