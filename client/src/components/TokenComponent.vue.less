@@ -1,12 +1,18 @@
 .token {
     &.ghost {
         opacity: 0.3;
+        pointer-events: none;
     }
     rect {
         stroke: black;
         stroke-width: 1;
 
-        &.thick {
+        &.boundary {
+            stroke: transparent;
+            fill: transparent;
+        }
+
+        &.highlighted {
             stroke-width: 3;
         }
 

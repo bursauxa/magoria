@@ -2,7 +2,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import TokenModel from '@/models/TokenModel';
 import GhostToken from '@/models/GhostToken';
 import TokenComponent from '@/components/TokenComponent.vue';
-import { DragCompletedEventData, DragAbortedEventData, DragInProgressEventData } from '@/lib/DragDropEventData';
+import { DragCompletedEventData, DragInProgressEventData } from '@/lib/DragDropEventData';
 
 @Component({
   components: {
@@ -19,27 +19,21 @@ export default class TokensVue extends Vue {
 
   public ghostToken: GhostToken = new GhostToken();
 
-  private onTokenDropCompleted(evt: DragCompletedEventData): void {
-    const sourceIndex = this.data.findIndex(token => token === evt.source.data);
-    const targetIndex = this.data.findIndex(token => token === evt.target.data);
-    Vue.set(this.data, sourceIndex, evt.target.data);
+  private onTokenDropCompleted(evt: DragCompletedEventData, token: TokenModel): void {
+    const sourceIndex = this.data.findIndex(datum => datum === evt.source.data);
+    const targetIndex = this.data.findIndex(datum => datum === token);
+    Vue.set(this.data, sourceIndex, token);
     Vue.set(this.data, targetIndex, evt.source.data);
-    this.data.forEach(datum => datum.thick = false);
+    this.data.forEach(datum => datum.highlighted = false);
     this.ghostToken.hide();
   }
 
-  private onTokenDragInProgress(evt: DragInProgressEventData): void {
-    this.data.forEach(datum => datum.thick = (datum === evt.target.data));
+  private onTokenDragInProgress(evt: DragInProgressEventData, token: TokenModel): void {
+    this.data.forEach(datum => datum.highlighted = (datum === token));
     if (!this.ghostToken.isVisible) {
       this.ghostToken.replicate(evt.source.data);
     }
-    let x = evt.target.offsetX - evt.source.offsetX;
-    let y = evt.target.offsetY - evt.source.offsetY;
-    if (evt.source.directiveHolder instanceof SVGSVGElement) {
-      x += evt.source.directiveHolder.x.baseVal.value;
-      y += evt.source.directiveHolder.y.baseVal.value;
-    }
-    this.ghostToken.move(x, y);
+    this.ghostToken.move(evt.target.x - evt.source.x, evt.target.y - evt.source.y);
   }
 
   private onDroppedInTrash(evt: DragCompletedEventData): void {
@@ -48,8 +42,8 @@ export default class TokensVue extends Vue {
     this.ghostToken.hide();
   }
 
-  private onDragAborted(evt: DragAbortedEventData): void {
-    this.data.forEach(datum => datum.thick = false);
+  private onDragAborted(): void {
+    this.data.forEach(datum => datum.highlighted = false);
     this.ghostToken.hide();
   }
 }

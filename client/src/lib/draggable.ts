@@ -3,11 +3,12 @@ import { noop } from 'vue-class-component/lib/util';
 import GlobalDragState from './DragState';
 import VueHelper from './VueHelper';
 
-function createMousedownHandler(draggableElement: HTMLElement, binding: VNodeDirective, node: VNode) {
+function createMousedownHandler(element: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (event: MouseEvent) => {
         const vue = VueHelper.findClosestMountedComponent(node);
         const data = binding.value;
-        GlobalDragState.start(event.target!, draggableElement, vue, event.offsetX, event.offsetY, data);
+        const bounds = element.getBoundingClientRect();
+        GlobalDragState.start(event.target!, element, vue, event.x - bounds.left, event.y - bounds.top, data);
     };
 }
 

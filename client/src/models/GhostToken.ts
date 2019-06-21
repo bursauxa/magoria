@@ -1,8 +1,6 @@
 import TokenModel from '@/models/TokenModel';
 
 export default class GhostToken extends TokenModel {
-    public ghost = true;
-
     private coords = [Number.NaN, Number.NaN];
     public get x() {
         return this.coords[0];

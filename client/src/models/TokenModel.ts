@@ -4,7 +4,7 @@ export default class TokenModel {
   public id: string;
   public orientation: TokenOrientation = TokenOrientation.North;
 
-  public thick = false;
+  public highlighted = false;
 
   private tones = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
   public toneIndex = 0;

@@ -24,14 +24,13 @@ class DragState {
         eventTarget: EventTarget,
         directiveHolder: HTMLElement,
         associatedVueComponent: Vue | null,
-        offsetX: number,
-        offsetY: number,
+        x: number,
+        y: number,
         data?: any): boolean {
         this.addRootHandlerIfNeeded();
 
         if (this.status === undefined || this.status === DragStatus.Completed || this.status === DragStatus.Aborted) {
-            this.sourceData = new DragDropData(
-                eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
+            this.sourceData = new DragDropData(eventTarget, directiveHolder, associatedVueComponent, x, y, data);
             this.targetData = null;
             this.status = DragStatus.Started;
             return true;
@@ -44,12 +43,10 @@ class DragState {
         eventTarget: EventTarget,
         directiveHolder: HTMLElement,
         associatedVueComponent: Vue | null,
-        offsetX: number,
-        offsetY: number,
-        data?: any): boolean {
+        x: number,
+        y: number): boolean {
         if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
-            this.targetData = new DragDropData(
-                eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY, data);
+            this.targetData = new DragDropData(eventTarget, directiveHolder, associatedVueComponent, x, y);
             this.status = DragStatus.InProgress;
             return true;
         } else {
@@ -61,11 +58,10 @@ class DragState {
         eventTarget: EventTarget,
         directiveHolder: HTMLElement,
         associatedVueComponent: Vue | null,
-        offsetX: number,
-        offsetY: number): boolean {
+        x: number,
+        y: number): boolean {
         if (this.status === DragStatus.Started || this.status === DragStatus.InProgress) {
-            this.targetData = new DragDropData(
-                eventTarget, directiveHolder, associatedVueComponent, offsetX, offsetY);
+            this.targetData = new DragDropData(eventTarget, directiveHolder, associatedVueComponent, x, y);
             this.status = DragStatus.Completed;
             return true;
         } else {

@@ -9,7 +9,8 @@ function createMousemoveHandler(element: HTMLElement, binding: VNodeDirective, n
         if (typeof binding.value !== 'function') {
             throw new Error('v-on-drag handler is not a function');
         }
-        if (GlobalDragState.progress(event.target!, element, vue, event.offsetX, event.offsetY)) {
+        const bounds = element.getBoundingClientRect();
+        if (GlobalDragState.progress(event.target!, element, vue, event.x - bounds.left, event.y - bounds.top)) {
             const dragDropEventData = GlobalDragState.buildEventData();
             binding.value.apply(null, [dragDropEventData]);
             if ((dragDropEventData as any).handled) {

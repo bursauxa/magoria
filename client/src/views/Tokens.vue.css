@@ -2,6 +2,10 @@
   user-select: none;
 }
 
+.tokens-svg {
+  background-color: silver;
+}
+
 .delete-area-flex {
   margin-top: 32px;
   display: flex;
@@ -11,5 +15,6 @@
 
 .delete-area-border {
   padding: 32px;
+  background-color: white;
   border: 1px black solid;
 }
