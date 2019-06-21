@@ -1,6 +1,6 @@
 <template>
     <svg class="token" width=128 height=128>
-        <rect width=128 height=128 class='boundary'/>
+        <rect width=128 height=128 class="boundary"/>
         <rect width=100 height=100 x=14 y=4 v-on:click="token.changeTone()" :class="[token.tone, token.highlighted ? 'highlighted' : '']"></rect>
         <g v-on:click="token.rotate()" :transform="'rotate(' + token.orientationAsDegrees + ', 64, 54)'">
             <circle r=20 cx=64 cy=54></circle>

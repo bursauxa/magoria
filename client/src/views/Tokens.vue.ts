@@ -14,7 +14,11 @@ export default class TokensVue extends Vue {
     new TokenModel('castle'),
     new TokenModel('dwarf'),
     new TokenModel('sword'),
-    new TokenModel('emerald')
+    new TokenModel('emerald'),
+    new TokenModel('tomato'),
+    new TokenModel('apple'),
+    new TokenModel('banana'),
+    new TokenModel('peanut')
   ];
 
   public ghostToken: GhostToken = new GhostToken();
