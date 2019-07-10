@@ -1,7 +1,7 @@
 import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
 import { noop } from 'vue-class-component/lib/util';
-import GlobalDragState from './DragState';
-import VueHelper from './VueHelper';
+import GlobalDragState from '../models/DragState';
+import VueHelper from '../vue/VueHelper';
 
 function createMousedownHandler(element: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (event: MouseEvent) => {

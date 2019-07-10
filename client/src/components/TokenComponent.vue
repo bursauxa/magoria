@@ -14,7 +14,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import TokenModel from '@/models/TokenModel';
 import GhostToken from '@/models/GhostToken';
-import { DragCompletedEventData, DragInProgressEventData } from '@/lib/DragDropEventData';
 
 @Component
 export default class TokenComponent extends Vue {

@@ -1,6 +1,6 @@
 import { DirectiveOptions, VNodeDirective } from 'vue';
 import { noop } from 'vue-class-component/lib/util';
-import { DragAbortedEventData } from './DragDropEventData';
+import { DragAbortedEventData } from '../models/DragDropEventData';
 
 function createMousemoveHandler(binding: VNodeDirective) {
     return (event: Event) => {

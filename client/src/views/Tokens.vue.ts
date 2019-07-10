@@ -2,7 +2,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import TokenModel from '@/models/TokenModel';
 import GhostToken from '@/models/GhostToken';
 import TokenComponent from '@/components/TokenComponent.vue';
-import { DragCompletedEventData, DragInProgressEventData } from '@/lib/DragDropEventData';
+import { DragCompletedEventData, DragInProgressEventData } from '@/lib/models/DragDropEventData';
 
 const highlightPerformed = 'highlight performed';
 

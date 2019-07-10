@@ -1,8 +1,8 @@
 import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
 import { noop } from 'vue-class-component/lib/util';
-import GlobalDragState from './DragState';
-import VueHelper from './VueHelper';
-import { getMetadata, setMetadata } from './DragDropMetadata';
+import GlobalDragState from '../models/DragState';
+import VueHelper from '../vue/VueHelper';
+import { getMetadata, setMetadata } from '../models/DragDropMetadata';
 
 function createMouseupHandler(element: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (event: MouseEvent) => {

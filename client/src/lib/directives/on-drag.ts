@@ -1,8 +1,8 @@
 import { DirectiveOptions, VNode, VNodeDirective } from 'vue';
 import { noop } from 'vue-class-component/lib/util';
-import GlobalDragState from './DragState';
-import VueHelper from './VueHelper';
-import { setMetadata, getMetadata } from './DragDropMetadata';
+import GlobalDragState from '../models/DragState';
+import VueHelper from '../vue/VueHelper';
+import { setMetadata, getMetadata } from '../models/DragDropMetadata';
 
 function createMousemoveHandler(element: HTMLElement, binding: VNodeDirective, node: VNode) {
     return (event: MouseEvent) => {
