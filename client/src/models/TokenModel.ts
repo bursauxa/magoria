@@ -4,8 +4,6 @@ export default class TokenModel {
   public id: string;
   public orientation: TokenOrientation = TokenOrientation.North;
 
-  public _highlighted = false;
-
   private tones = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
   public toneIndex = 0;
 
@@ -14,13 +12,7 @@ export default class TokenModel {
     this.orientation = orientation ? orientation : TokenOrientation.North;
   }
 
-  public get highlighted(): boolean {
-    return this._highlighted;
-  }
-
-  public set highlighted(value: boolean) {
-    this._highlighted = value;
-  }
+  public highlighted = false;
 
   public get tone(): string {
     return this.tones[this.toneIndex];

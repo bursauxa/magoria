@@ -9,7 +9,7 @@
       <foreignObject width=512 height=128 y=256>
         <div class="delete-area-flex">
           <div class="delete-area-border" v-on-drop="onDroppedInTrash">
-            [delete area]
+            🚮
           </div>
         </div>
       </foreignObject>

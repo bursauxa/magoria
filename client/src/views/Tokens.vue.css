@@ -14,7 +14,8 @@
 }
 
 .delete-area-border {
-  padding: 32px;
+  padding: 0px 32px;
   background-color: white;
   border: 1px black solid;
+  font-size: 64px;
 }

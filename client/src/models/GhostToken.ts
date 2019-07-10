@@ -18,7 +18,7 @@ export default class GhostToken extends TokenModel {
         super('');
     }
 
-    public replicate(token: TokenModel) {
+    public show(token: TokenModel) {
         this.toneIndex = token.toneIndex;
         this.id = token.id;
         this.orientation = token.orientation;

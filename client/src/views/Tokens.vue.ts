@@ -44,7 +44,7 @@ export default class TokensVue extends Vue {
       this.data.forEach(datum => datum.highlighted = false);
     }
     if (!this.ghostToken.isVisible) {
-      this.ghostToken.replicate(evt.source.data);
+      this.ghostToken.show(evt.source.data);
     }
     this.ghostToken.move(evt.target.x - evt.source.x, evt.target.y - evt.source.y);
   }
