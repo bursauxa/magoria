@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/router';
-import AddDragop from './lib/Dragop';
+import { AddDragopDirectives } from 'dragop';
 
 Vue.config.productionTip = false;
-AddDragop();
+AddDragopDirectives(Vue);
 
 new Vue({
   router,
