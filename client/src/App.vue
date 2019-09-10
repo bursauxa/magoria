@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/lobby">Lobby</router-link> |
-      <router-link to="/dendogram">Dendogram</router-link> |
+      <router-link to="/dendrogram">Dendrogram</router-link> |
       <router-link to="/tokens">Tokens</router-link>
     </div>
     <router-view/>

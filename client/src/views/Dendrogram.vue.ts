@@ -9,19 +9,19 @@ interface FlareNode {
     value: number;
 }
 
-interface DendogramSettings {
+interface DendrogramSettings {
     strokeColor: string;
     width: number;
     height: number;
 }
 
 @Component
-export default class DendogramVue extends Vue {
+export default class DendrogramVue extends Vue {
 
   public flareData: FlareNode[] = csv;
   public selected: any = null;
   public search: string = 'force';
-  public settings: DendogramSettings = {
+  public settings: DendrogramSettings = {
     strokeColor: '#19B5FF',
     width: 960,
     height: 2000
@@ -33,7 +33,7 @@ export default class DendogramVue extends Vue {
       .parentId(node => node.id.substring(0, node.id.lastIndexOf('.')));
 
     // attach the tree to the Vue data object
-    return this.tree(stratify(this.flareData).sort(DendogramVue.compareNodes));
+    return this.tree(stratify(this.flareData).sort(DendrogramVue.compareNodes));
   }
 
   private static compareNodes(a: HierarchyNode<FlareNode>, b: HierarchyNode<FlareNode>): number {

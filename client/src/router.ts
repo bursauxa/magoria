@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HomeVue from '@/views/Home.vue';
 import GameVue from '@/views/Game.vue';
-import DendogramVue from '@/views/Dendogram.vue';
+import DendrogramVue from '@/views/Dendrogram.vue';
 import LobbyVue from '@/views/Lobby.vue';
 import TokensVue from '@/views/Tokens.vue';
 
@@ -26,9 +26,9 @@ export default new Router({
       component: GameVue
     },
     {
-      path: '/dendogram',
-      name: 'dendogram',
-      component: DendogramVue
+      path: '/dendrogram',
+      name: 'dendrogram',
+      component: DendrogramVue
     },
     {
       path: '/tokens',

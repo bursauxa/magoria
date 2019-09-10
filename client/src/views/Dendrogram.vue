@@ -1,6 +1,6 @@
 <template>
-  <div class="dendogram">
-    <h1>Dendogram (original: https://bl.ocks.org/mbostock/4063570)</h1>
+  <div class="dendrogram">
+    <h1>Dendrogram (original: https://bl.ocks.org/mbostock/4063570)</h1>
 
     <!-- UI controls that can are used to manipulate the display of the chart -->   
     <div class="controls">      
@@ -48,8 +48,8 @@
 	</div>
 </template>
 
-<script lang="ts" src="./Dendogram.vue.ts">
+<script lang="ts" src="./Dendrogram.vue.ts">
 </script>
 
-<style lang="less" src="./Dendogram.vue.less">
+<style lang="less" src="./Dendrogram.vue.less">
 </style>
