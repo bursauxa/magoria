@@ -22,7 +22,7 @@
     "@vue/cli-plugin-typescript": "^3.9.0",
     "@vue/cli-service": "^3.9.2",
     "csv-loader": "^3.0.2",
-    "papaparse": "^4.6.2",
+    "papaparse": "^5.3.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "typescript": "^3.5.3",
